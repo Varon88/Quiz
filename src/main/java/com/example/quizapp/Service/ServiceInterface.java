@@ -11,12 +11,12 @@ public interface ServiceInterface {
     ResponseEntity<List<Question>> getAllQuestions();
 
 
-    List<Question> getQuestionByCategory(String category);
+    ResponseEntity<List<Question>> getQuestionByCategory(String category);
 
-    String addQuestion(Question question);
+    ResponseEntity<String> addQuestion(Question question);
 
-    String deleteQuestionById(int id);
+    ResponseEntity<String> deleteQuestionById(int id);
 
-    String updateQuestionById(int id, Question question);
+    ResponseEntity<String> updateQuestionById(int id, Question question);
 
 }

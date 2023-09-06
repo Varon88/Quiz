@@ -29,24 +29,24 @@ public class QuestionService implements ServiceInterface {
     }
 
     @Override
-    public List<Question> getQuestionByCategory(String category) {
-        return questionDao.findByCategory(category);
+    public ResponseEntity<List<Question>> getQuestionByCategory(String category) {
+        return new ResponseEntity<>(questionDao.findByCategory(category), HttpStatus.FOUND);
     }
 
     @Override
-    public String addQuestion(Question question) {
+    public ResponseEntity<String> addQuestion(Question question) {
         questionDao.save(question);
-        return "data addition successful.";
+        return new ResponseEntity<>("data addition successful.", HttpStatus.CREATED);
     }
 
     @Override
-    public String deleteQuestionById(int id) {
+    public ResponseEntity<String> deleteQuestionById(int id) {
         questionDao.deleteById(id);
-        return "data successfully deleted.";
+        return new ResponseEntity<>("data successfully deleted.", HttpStatus.OK);
     }
 
     @Override
-    public String updateQuestionById(int id, Question question) {
+    public ResponseEntity<String> updateQuestionById(int id, Question question) {
         if(questionDao.existsById(id)){
             Question q1 = questionDao.getReferenceById(id);
             q1.setId(id);
@@ -59,9 +59,9 @@ public class QuestionService implements ServiceInterface {
             q1.setDifficultyLevel(question.getDifficultyLevel());
             q1.setCategory(question.getCategory());
             questionDao.save(q1);
-            return "update successful.";
+            return new ResponseEntity<>("update successful.", HttpStatus.ACCEPTED);
         }else{
-            return "update unsuccessful as no records in the specified id is present.";
+            return new ResponseEntity<>("update unsuccessful as no records in the specified id is present.", HttpStatus.NOT_FOUND);
         }
     }
 

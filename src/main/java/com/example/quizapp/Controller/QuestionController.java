@@ -22,22 +22,22 @@ public class QuestionController {
     }
 
     @GetMapping("category/{category}") //the /{category} results in the value of category directly being stored in the variable category which is also assisted by the pathvariable annotation
-    public List<Question> getQuestionByCategory(@PathVariable String category){
+    public ResponseEntity<List<Question>> getQuestionByCategory(@PathVariable String category){
         return questionService.getQuestionByCategory(category);
     }
 
     @PostMapping("add")
-    public String addQuestion(@RequestBody Question question){
+    public ResponseEntity<String> addQuestion(@RequestBody Question question){
         return questionService.addQuestion(question);
     }
 
     @DeleteMapping("delete/{id}")
-    public String deleteQuestionById(@PathVariable int id){
+    public ResponseEntity<String> deleteQuestionById(@PathVariable int id){
         return questionService.deleteQuestionById(id);
     }
 
     @PutMapping("update/{id}")
-    public String updateQuestionById(@PathVariable int id, @RequestBody Question question){
+    public ResponseEntity<String> updateQuestionById(@PathVariable int id, @RequestBody Question question){
         return questionService.updateQuestionById(id,question);
     }
 
