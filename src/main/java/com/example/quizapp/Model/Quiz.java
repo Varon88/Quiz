@@ -16,7 +16,6 @@ public class Quiz {
     private int id;
     private String title;
 
-    @Transient
     @ManyToMany
     private List<Question> questionList;
 

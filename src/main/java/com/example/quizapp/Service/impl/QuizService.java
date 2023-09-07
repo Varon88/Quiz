@@ -5,6 +5,7 @@ import com.example.quizapp.DAO.QuizDao;
 import com.example.quizapp.Model.Question;
 import com.example.quizapp.Model.QuestionWrapper;
 import com.example.quizapp.Model.Quiz;
+import com.example.quizapp.Model.Response;
 import com.example.quizapp.Service.QuizServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -37,6 +38,18 @@ public class QuizService implements QuizServiceInterface {
     }
 
     @Override
+    public ResponseEntity<List<Quiz>> getAllQuizes() {
+        try{
+            List<Quiz> quizList = quizDao.findAll();
+            return new ResponseEntity<>(quizList, HttpStatus.OK);
+        }catch(Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>(new ArrayList<>(), HttpStatus.NOT_FOUND);
+        }
+    }
+
+
+    @Override
     public ResponseEntity<List<QuestionWrapper>> getQuizQuestions(Integer id) {
         if(quizDao.existsById(id)) {
             Optional<Quiz> quiz = quizDao.findById(id);
@@ -51,4 +64,22 @@ public class QuizService implements QuizServiceInterface {
             return new ResponseEntity<>(new ArrayList<>(),HttpStatus.CREATED);
         }
     }
+
+    @Override
+    public ResponseEntity<Integer> calculateResult(Integer id, List<Response> response) {
+        Quiz quiz = quizDao.findById(id).get();
+        List<Question> questionList = quiz.getQuestionList();
+
+        int score = 0;
+        int i = 0;
+        for(Response r : response){
+            if(r.getResponse().equals(questionList.get(i).getRightAnswer())) {
+                score++;
+            }
+            i++;
+        }
+        return new ResponseEntity<>(score, HttpStatus.OK );
+    }
+
+
 }
