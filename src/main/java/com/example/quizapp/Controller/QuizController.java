@@ -1,6 +1,7 @@
 package com.example.quizapp.Controller;
 
 import com.example.quizapp.Model.Question;
+import com.example.quizapp.Model.QuestionWrapper;
 import com.example.quizapp.Service.impl.QuizService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -22,8 +23,7 @@ public class QuizController {
     }
 
     @GetMapping("get/{id}")
-    public ResponseEntity<List<Question>> getQuizQuestions(@PathVariable Integer id){
-        return
+    public ResponseEntity<List<QuestionWrapper>> getQuizQuestions(@PathVariable Integer id){
+        return quizService.getQuizQuestions(id);
     }
-
 }

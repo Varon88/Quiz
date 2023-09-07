@@ -69,6 +69,4 @@ public class QuestionService implements ServiceInterface {
             return new ResponseEntity<>("update unsuccessful as no records in the specified id is present.", HttpStatus.NOT_FOUND);
         }
     }
-
-
 }
