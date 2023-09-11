@@ -2,6 +2,7 @@ package com.example.quizapp.Controller;
 
 import com.example.quizapp.Model.Question;
 import com.example.quizapp.Service.impl.QuestionService;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -12,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("question")
+@Api
 public class QuestionController {
 
     @Autowired
