@@ -20,14 +20,20 @@ public class QuizController {
     QuizService quizService;
 
     @PostMapping("create")
-    @Operation(tags = {"Quiz operations"}) // the tag will sort out  all the mappings under the same tag under 1 common section in this case quiz
+    @Operation(tags = {"Quiz operations"}, // the tag will sort out all the mappings under the same tag under 1 common section in this case quiz
+                operationId = "createQuiz",
+                summary = "creates a quiz by category ",
+                description = "creates a quiz by taking in factors such as category, number of questions and the desired quiz title as parameters " )
     public ResponseEntity<String> createQuiz(@RequestParam String category, @RequestParam int numQ, @RequestParam String title){
         return quizService.createQuiz(category,numQ,title);
 
     }
 
     @GetMapping("getall")
-    @Operation(tags = {"Quiz operations"})
+    @Operation(tags = {"Quiz operations"},
+            operationId = "getAllQuizzes",
+            summary = "prints all the available quizzes",
+            description = "no parameters would be taken in, main fucntion would be to retrieve all elements withing the database")
     public ResponseEntity<List<Quiz>> getAllQuizes(){
         return quizService.getAllQuizes();
     }
