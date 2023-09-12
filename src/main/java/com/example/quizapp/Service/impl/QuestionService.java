@@ -35,8 +35,8 @@ public class QuestionService implements ServiceInterface {
 
     @Override
     public ResponseEntity<String> addQuestion(Question question) {
-        questionDao.save(question);
         try {
+            questionDao.save(question);
             return new ResponseEntity<>("data addition successful.", HttpStatus.CREATED);
         }catch(Exception e){
             e.printStackTrace();
