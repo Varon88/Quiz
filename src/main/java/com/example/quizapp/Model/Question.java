@@ -5,12 +5,14 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
+
 
 //used to automatically configure the getters and setters
 @Entity
 @Table(name = "Question")
-public class Question {
-
+public class Question implements Serializable {
+//todo : note that inorder for redis to fuction the model and the service for the required model should be in serializable formats.
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

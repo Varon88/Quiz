@@ -4,6 +4,8 @@ import com.example.quizapp.DAO.QuestionDAO;
 import com.example.quizapp.Model.Question;
 import com.example.quizapp.Service.ServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -11,22 +13,38 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.lang.Thread.sleep;
+
 @Service
 public class QuestionService implements ServiceInterface {
 
     @Autowired
     QuestionDAO questionDao;
 
-    @Override
-    public ResponseEntity<List<Question>> getAllQuestions(){
-        try{ //try catch block is used to handle exceptions that could pop up.
-            return new ResponseEntity(questionDao.findAll(), HttpStatus.OK); //response entity would enable the http status to also be displayed along with the list in this case.
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-        return new ResponseEntity<>(new ArrayList<>(), HttpStatus.BAD_REQUEST);
+//    @Override
+//    @Cacheable("All questions") //caches all the questions after a single run but wouldn't work if new data is added
+//    public ResponseEntity<List<Question>> getAllQuestions(){
+//        try{ //try catch block is used to handle exceptions that could pop up.
+//            sleep(1000);
+//            return new ResponseEntity(questionDao.findAll(), HttpStatus.OK); //response entity would enable the http status to also be displayed along with the list in this case.
+//        }catch(Exception e){
+//            e.printStackTrace();
+//        }
+//        return new ResponseEntity<>(new ArrayList<>(), HttpStatus.BAD_REQUEST);
+//
+//    }
 
+    @Override
+    @Cacheable("All questions") //caches all the questions after a single run but wouldn't work if new data is added
+    public List<Question> getAllQuestions(){
+        try {
+            sleep(1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        return  questionDao.findAll();
     }
+
 
     @Override
     public ResponseEntity<List<Question>> getQuestionByCategory(String category) {
@@ -34,6 +52,7 @@ public class QuestionService implements ServiceInterface {
     }
 
     @Override
+    @CacheEvict(value = "All questions", allEntries = true) //this line resets the whole cache whenever a new element is added. Allows for new elements to be cached
     public ResponseEntity<String> addQuestion(Question question) {
         try {
             questionDao.save(question);

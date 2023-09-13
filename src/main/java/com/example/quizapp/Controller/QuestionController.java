@@ -25,6 +25,20 @@ public class QuestionController {
 
     @Autowired
     QuestionService questionService;
+
+
+//    @GetMapping("allQuestions")
+//    @Operation(tags = {"Question operations"},  // the tag will sort out  all the mappings under the same tag under 1 common section in this case question; 2 tags can also be added
+//            operationId = "geAllQuestions",
+//            summary = "retrieves all questions from the database",
+//            description = "just outputs every single question present within the database",
+//            /*,hidden = true //hides the whole endpoint
+//            * externalDocs = @ExternalDocumentation(url = "https...", description = "for more details check the link")*/ //provides external documentation
+//            responses = {@ApiResponse(responseCode = "200", content = @Content(schema = @Schema(implementation = Question.class), mediaType = MediaType.APPLICATION_JSON_VALUE), description = "question retrieved")}) //provides a given body based on the response code obtained also specifies the type of media obtained.
+//    public ResponseEntity<List<Question>> getAllQuestions(){
+//        return questionService.getAllQuestions();
+//    }
+
     @GetMapping("allQuestions")
     @Operation(tags = {"Question operations"},  // the tag will sort out  all the mappings under the same tag under 1 common section in this case question; 2 tags can also be added
             operationId = "geAllQuestions",
@@ -33,7 +47,7 @@ public class QuestionController {
             /*,hidden = true //hides the whole endpoint
             * externalDocs = @ExternalDocumentation(url = "https...", description = "for more details check the link")*/ //provides external documentation
             responses = {@ApiResponse(responseCode = "200", content = @Content(schema = @Schema(implementation = Question.class), mediaType = MediaType.APPLICATION_JSON_VALUE), description = "question retrieved")}) //provides a given body based on the response code obtained also specifies the type of media obtained.
-    public ResponseEntity<List<Question>> getAllQuestions(){
+    public List<Question> getAllQuestions(){
         return questionService.getAllQuestions();
     }
 
@@ -64,7 +78,7 @@ public class QuestionController {
                 operationId = "deleteQuestions",
                 summary = "deletes questions based on the id",
                 description = "takes in the id as a path variable and deletes the question with the corresponding id within the database",
-                parameters = {@Parameter(name = "id", description = "the path variable", example = "12")})
+                parameters = {@Parameter(name = "id", description = "the id of the question to be deleted", example = "12")})
     public ResponseEntity<String> deleteQuestionById(@PathVariable int id){
         return questionService.deleteQuestionById(id);
     }
@@ -74,7 +88,8 @@ public class QuestionController {
                 operationId = "updateQuestions",
                 summary = "updates questions by id",
                 description = "values within the question entry is switched based on the id obtained in the form of a path variable and the question info in the form of a body",
-                requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "body of questions to be edited", content = @Content(schema = @Schema(implementation = Question.class))))
+                requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "body of questions to be edited", content = @Content(schema = @Schema(implementation = Question.class))),
+                parameters = {@Parameter(name = "id", description = "the id of the question to be updated", example = "12")})
     public ResponseEntity<String> updateQuestionById(@PathVariable int id, @RequestBody Question question){
         return questionService.updateQuestionById(id,question);
     }

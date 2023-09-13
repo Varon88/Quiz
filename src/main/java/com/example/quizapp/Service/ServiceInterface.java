@@ -8,8 +8,8 @@ import java.util.List;
 public interface ServiceInterface {
 
 
-    ResponseEntity<List<Question>> getAllQuestions();
-
+//    ResponseEntity<List<Question>> getAllQuestions();
+    List<Question> getAllQuestions();
 
     ResponseEntity<List<Question>> getQuestionByCategory(String category);
 
